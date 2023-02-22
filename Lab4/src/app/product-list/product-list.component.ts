@@ -10,8 +10,9 @@ import { Product, products } from '../products';
 export class ProductListComponent {
   products = products;
 
-  share() {
+  share(product: Product) {
     window.alert('The product has been shared!');
+    window.open(`https://api.whatsapp.com/send?phone=77767283492&text=${product.link}`);
   }
   onNotify() {
     window.alert('You will be notified when the product goes on sale');
