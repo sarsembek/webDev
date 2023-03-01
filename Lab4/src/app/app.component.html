@@ -1,8 +1,14 @@
 <app-top-bar></app-top-bar>
 
-<div class="container">
-  <router-outlet></router-outlet>
+<div class="categories">
+  <div *ngFor="let category of categories">
+    <div class="category" (click)="categoryClick(category.name)">
+      <h1>{{ category.name }}</h1>
+      <img src="{{ category.img }}" alt="image" class="category-img">
+    </div>
+  </div>
 </div>
+<app-product-list *ngIf="show" [categoryName]="categoryName"></app-product-list>
 
 <!-- 
 Copyright Google LLC. All Rights Reserved.

@@ -1,4 +1,18 @@
+img{
+    width: 75%;
+    height: auto;
+}
 
+
+
+p{
+   margin: 6px;
+}
+
+
+button{
+    width: fit-content;
+}
 
 /*
 Copyright Google LLC. All Rights Reserved.

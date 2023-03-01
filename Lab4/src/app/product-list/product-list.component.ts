@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { Product, products } from '../products';
 
@@ -8,8 +8,11 @@ import { Product, products } from '../products';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent {
-  products = products;
-
+  products = [...products]
+  @Input() categoryName: string | undefined;
+  remove(id:number){
+    this.products = this.products.filter((x) => x.id !== id);
+  }
   share(product: Product) {
     window.alert('The product has been shared!');
     window.open(`https://api.whatsapp.com/send?phone=77767283492&text=${product.link}`);
