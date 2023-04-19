@@ -1,0 +1,13 @@
+<div *ngIf="company">
+    <h2>{{ company.name }}</h2>
+    <p>{{ company.description }}</p>
+    <h3>Vacancies:</h3>
+    <ul>
+      <li *ngFor="let vacancy of vacancies">
+        <h4>{{ vacancy.name }}</h4>
+        <p>{{ vacancy.description }}</p>
+        <p>Salary: {{ vacancy.salary }}</p>
+      </li>
+    </ul>
+  </div>
+  
