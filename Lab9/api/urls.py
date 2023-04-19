@@ -1,10 +1,12 @@
 from django.urls import path
-from rest_framework.urlpatterns import format_suffix_patterns
-import api.views
+from . import views
+
 urlpatterns = [
-    path("api/companies/", views.CompanyViewSet.as_view()),
-    path("api/companies/<int:id>/", views.CompanyDetailSet, name="CompanyDetailSet"),
-    path("api/companies/<int:id>/vacancies", CompanyVacancyViewSet.as_view()),
-    path("api/vacancies/", VacancyViewSet.as_view()),
-    path("api/vacancies/<int:id>", VacancyDetailSet, name="VacancyDetailSet"),
+    path('companies/', views.company_list),
+    path('companies/<int:id>/', views.company_detail),
+    path('companies/<int:id>/vacancies/', views.company_vacancies),
+
+    path('vacancies/', views.vacancy_list),
+    path('vacancies/<int:id>/', views.vacancy_detail),
+    path('vacancies/top_ten/', views.top_10_vacancies),
 ]

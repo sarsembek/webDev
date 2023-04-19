@@ -1,16 +1,23 @@
 from django.db import models
-from django.urls import reverse
+
+# Create your models here.
+from django.db import models
+
+class Category(models.Model):
+    # class Meta:
+    #     app_label = 'shopback'
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 class Product(models.Model):
-    name = models.CharField(max_length=100)
-    price = models.FloatField(max_length=300)
+    name = models.CharField(max_length=255)
+    price = models.FloatField()
     description = models.TextField()
     count = models.IntegerField()
-    is_active = models.BooleanField()
-    def __str__(self):
-        return self.name
-class Category(models.Model):
-    name = models.CharField(max_length=100)
-    def __str__(self):
-        return self.name
+    is_active = models.BooleanField(default=True)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name

@@ -1,52 +1,61 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from rest_framework import generics
+
+
+# Create your views here.
 from django.http import JsonResponse
-
 from .models import Company, Vacancy
-from .serializers import CompanySerializer, VacancySerializer
 
-class CompanyViewSet(generics.ListCreateAPIView,
-                    generics.RetrieveUpdateDestroyAPIView
-                    ):
-    serializer_class = CompanySerializer
-    queryset = Company.objects.all()
-def CompanyDetailSet(request,id):
+def company_list(request):
+    companies = Company.objects.all()
+    data = {'companies': list(companies.values())}
+    return JsonResponse(data)
+
+def company_detail(request, id):
     try:
-        serializer_class = CompanySerializer
-        queryset = Company.objects.get(id = id)
-        data = {'queryset':{
-            'name': queryset.name,
-            'description': queryset.description,
-            'city': queryset.city,
-            'address': queryset.address
+        company = Company.objects.get(id=id)
+        data = {'company': {
+            'name': company.name,
+            'description': company.description,
+            'city': company.city,
+            'address': company.address,
+            
         }}
     except Company.DoesNotExist:
         data = {'error': 'Company not found'}
-    return render(data)
-class CompanyVacancyViewSet(generics.ListCreateAPIView,
-                    generics.RetrieveUpdateDestroyAPIView,
-                    request,
-                    id
-                    ):
-    serializer_class = VacancySerializer
-    queryset = Vacancy.objects.filter(id = id)
-class VacancyViewSet(generics.ListCreateAPIView,
-                    generics.RetrieveUpdateDestroyAPIView,
-                    ):
-    serializer_class = VacancySerializer
-    queryset = Vacancy.objects.all()
-def VacancyDetailSet(request,id):
+    return JsonResponse(data)
+
+def vacancy_list(request):
+    vacancies = Vacancy.objects.all()
+    data = {'vacancies': list(vacancies.values())}
+    return JsonResponse(data)
+
+def vacancy_detail(request, id):
     try:
-        serializer_class = VacancySerializer
-        queryset = Vacancy.objects.get(id = id)
-        data = {'queryset':{
-            'name': queryset.name,
-            'description': queryset.description,
-            'salary': queryset.salary,
-            'company': queryset.company
+        vacancy = Vacancy.objects.get(id=id)
+        data = {'vacancy': {
+            'name': vacancy.name,
         }}
     except Vacancy.DoesNotExist:
         data = {'error': 'Vacancy not found'}
-    return render(data)
+    return JsonResponse(data)
+
+def company_vacancies(request, id):
+    # try:
+        company = Company.objects.get(id=id)
+        vacancies = Vacancy.objects.filter(company__id = id)
+        data = {'vacancies': list(vacancies.values())}
+    # except Company.DoesNotExist:
+        # data = {'error': 'Company not found'}
+        return JsonResponse(data)
+
+def top_10_vacancies(request):
+    try:
+        # company = Company.objects.get(id=id)
+        vacancies = Vacancy.objects.order_by('-salary')[:10]
+
+        data = {'vacancies': list(vacancies.values())}
+    except Vacancy.DoesNotExist:
+        data = {'error': 'Company not found'}
+    return JsonResponse(data)
+
 
